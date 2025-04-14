@@ -471,33 +471,37 @@ class _ProcessGeneratorScreenState extends State<ProcessGeneratorScreen> {
                   ),
                 ],
               ),
-              //SizedBox(height: 100),
-              // Text(
-              //   'Description : ',
-              //   style: TextStyle(
-              //     fontSize: 16,
-              //     color: Colors.black54,
-              //     fontWeight: FontWeight.w700,
-              //   ),
-              // ),
-              // SizedBox(height: 12),
-              // Text(
-              //   'In this page, a set of processes is randomly generated based on the input values such as number of processes, arrival time range, burst time range, and priority target. After entering the data, you can click "Generate Processes" to create the processes, view them using "View Processes", then move to schedule them using "OS Scheduler".',
-              //   style: TextStyle(fontSize: 16, color: Colors.black45),
-              // ),
-              // SizedBox(height: 15),
-              // Text(
-              //   'After generating the processes, they are stored internally to be used later in scheduling. Each process includes an arrival time, burst time, and priority, all randomly calculated based on your input values.',
-              //   style: TextStyle(fontSize: 16, color: Colors.black45),
-              // ),
-              Spacer(),
-              Center(
-                child: Image.asset(
-                  "assets/ecu_logo.png",
-                  width: MediaQuery.of(context).size.width * 0.7,
+              SizedBox(height: 20),
+              Text(
+                'Description : ',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black54,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-              Spacer(),
+              SizedBox(height: 12),
+              Text(
+                'In this page, a set of processes is randomly generated based on the input values such as number of processes, arrival time range, burst time range, and priority target. After entering the data, you can click "Generate Processes" to create the processes, view them using "View Processes", then move to schedule them using "OS Scheduler".',
+                style: TextStyle(fontSize: 16, color: Colors.black45),
+              ),
+              SizedBox(height: 15),
+              Text(
+                'After generating the processes, they are stored internally to be used later in scheduling. Each process includes an arrival time, burst time, and priority, all randomly calculated based on your input values.',
+                style: TextStyle(fontSize: 16, color: Colors.black45),
+              ),
+              // Spacer(),
+              SizedBox(height: 15,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Image.asset(
+                    "assets/ecu_logo.png",
+                    width: MediaQuery.of(context).size.width * 0.2,
+                  ),
+                ],
+              ),
+              // Spacer(),
               SizedBox(height: 40),
             ],
           ),

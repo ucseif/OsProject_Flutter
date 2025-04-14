@@ -228,8 +228,13 @@ class _OsSchedulerState extends State<OsScheduler> {
     Map<int, double> startTimes = {};
     List<Map<String, dynamic>> completedProcesses = [];
 
-    while (completedProcesses.length < processes.length) {
-      var availableProcesses = processes
+    // ننسخ العمليات عشان نشتغل على نسخة خاصة ونمنع التعديل على القائمة الأصلية
+    List<Map<String, dynamic>> processesCopy = processes
+        .map((p) => Map<String, dynamic>.from(p))
+        .toList();
+
+    while (completedProcesses.length < processesCopy.length) {
+      var availableProcesses = processesCopy
           .where((p) =>
       p['arrivalTime'] <= currentTime &&
           remainingBurstTimes[p['id']]! > 0)
@@ -240,7 +245,6 @@ class _OsSchedulerState extends State<OsScheduler> {
         continue;
       }
 
-      // اختر العملية ذات الوقت المتبقي الأقل
       var currentProcess = availableProcesses.reduce((a, b) =>
       remainingBurstTimes[a['id']]! < remainingBurstTimes[b['id']]!
           ? a
@@ -249,30 +253,29 @@ class _OsSchedulerState extends State<OsScheduler> {
       double executionTime = 0.1;
       int id = currentProcess['id'];
 
-      // أول مرة يبدأ فيها التنفيذ، سجل start time
       if (!startTimes.containsKey(id)) {
         startTimes[id] = currentTime;
       }
 
-      // خصم الزمن
       remainingBurstTimes[id] = remainingBurstTimes[id]! - executionTime;
       currentTime += executionTime;
 
-      // لما تخلص العملية تمامًا
-      if (remainingBurstTimes[id]! <= 0) {
-        currentProcess['completionTime'] = currentTime;
+      if (remainingBurstTimes[id]! <= 0.0001) {
+        currentProcess['completionTime'] = double.parse(currentTime.toStringAsFixed(2));
         currentProcess['startTime'] = startTimes[id];
         currentProcess['turnaroundTime'] =
             currentTime - currentProcess['arrivalTime'];
         currentProcess['waitingTime'] =
             currentProcess['turnaroundTime'] - currentProcess['burstTime'];
 
-        completedProcesses.add(currentProcess);
+        // نضيف نسخة منفصلة من العملية إلى completedProcesses
+        completedProcesses.add(Map<String, dynamic>.from(currentProcess));
       }
     }
 
     _showResultsInBottomSheet(context, completedProcesses, 'Preemptive SRTF');
   }
+
 
 
   // void _executeSRTF(BuildContext context) {
